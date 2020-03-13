@@ -1,0 +1,61 @@
+####MySQL避免插入重复记录的方法
+
+注意，除非表有一个PRIMARY KEY或UNIQUE索引，否则，使用以上三个语句没有意义，与使用单纯的INSERT INTO相同。
+
+insert ignore会忽略数据库中已经存在的数据(根据主键或者唯一索引判断)，如果数据库没有数据，就插入新的数据，如果有数据的话就跳过这条数据
+
+```sql
+
+    aa = eval(cc)  #  cc str类型转dic
+
+root:test> insert ignore into t3 (c1,c2,c3) values(5,'cc',4),(6,'dd',5);     Query OK, 1 row affected, 1 warning (0.01 sec)
+
+insert into t3(c1,c2,c3) values (3,'new',5) on duplicate key update c1=c1+3;
+```
+
+这三种方法都能避免主键或者唯一索引重复导致的插入失败问题。
+insert ignore能忽略重复数据，只插入不重复的数据。
+replace into和insert ... on duplicate key update，都是替换原有的重复数据，区别在于replace into是删除原有的行后，在插入新行，如有自增id，这个会造成自增id的改变；insert ... on duplicate key update在遇到重复行时，会直接更新原有的行，具体更新哪些字段怎么更新，取决于update后的语句
+
+
+
+key 是数据库的物理结构，它包含两层意义和作用，
+一是约束（偏重于约束和规范数据库的结构完整性），
+二是索引（辅助查询用的）。
+包括primary key, unique key, foreign key 等。
+primary key 有两个作用，一是约束作用（constraint），用来规范一个存储主键和唯一性，但同时也在此key上建立了一个主键索引；
+PRIMARY KEY 约束：唯一标识数据库表中的每条记录；
+     主键必须包含唯一的值；
+     主键列不能包含 NULL 值；
+     每个表都应该有一个主键，并且每个表只能有一个主键。（PRIMARY KEY 拥有自动定义的 UNIQUE 约束）
+unique key 也有两个作用，一是约束作用（constraint），规范数据的唯一性，但同时也在这个key上建立了一个唯一索引；
+UNIQUE 约束：唯一标识数据库表中的每条记录。
+UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证。
+（每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束）
+foreign key也有两个作用，一是约束作用（constraint），规范数据的引用完整性，但同时也在这个key上建立了一个index；
+可见，mysql的key是同时具有constraint和index的意义，这点和其他数据库表现的可能有区别。
+（至少在oracle上建立外键，不会自动建立index），因此创建key也有如下几种方式：
+（1）在字段级以key方式建立， 如 create table t (id int not null primary key);
+（2）在表级以constraint方式建立，如create table t(id int, CONSTRAINT pk_t_id PRIMARY key (id));
+（3）在表级以key方式建立，如create table t(id int, primary key (id));
+
+其它key创建类似，但不管那种方式，既建立了constraint，又建立了index，只不过index使用的就是这个constraint或key。
+
+
+
+
+2： index是数据库的物理结构，它只是辅助查询的，它创建时会在另外的表空间（mysql中的innodb表空间）以一个类似目录的结构存储。索引要分类的话，分为前缀索引、全文本索引等；
+        因此，索引只是索引，它不会去约束索引的字段的行为（那是key要做的事情）。如，create table t(id int,index inx_tx_id (id));
+
+
+3 总结，最后的释疑：
+（1）我们说索引分类，分为
+
+主键索引（必须指定为“PRIMARY KEY”，没有PRIMARY Index）、
+
+唯一索引（unique index，一般写成unique key）、
+
+普通索引(index，只有这一种才是纯粹的index)等，也是基于是不是把index看作了key。
+           比如 create table t(id int, unique indexinx_tx_id (id));--index当作了key使用
+
+（2）最重要的也就是，不管如何描述，需要理解index是纯粹的index（普通的key，或者普通索引index），还是被当作key（如：unique index、unique key和primary key），若当作key时则会有两种意义或起两种作用
