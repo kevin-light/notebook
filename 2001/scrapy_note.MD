@@ -1,9 +1,89 @@
 ###scrapy note
 
+crc32 ==> int->str ; \m
 
-##### scrapy 任务 监控系统，middlewares
+##### 日志配置
+```python
+import logging, datetime
+AUTOTHROTTLE_DEBUG = True
+LOG_FILE_PATH = './varlogs/tt_log%s' % datetime.now().strftime('%m%d')
+LOG_LEVEL = 'INFO'
+LOG_FILE = LOG_FILE_PATH
 
+logger = logging.getLogger(__name__)
+logger.info('err')
+```
     
+总结，
+1，字段加密破解：传参数是否带有空格特殊符号换行等，例如Python内置的dict类型自带空格
+2，item值的dict类型赋值前做jsondumps
+3，request请求参数有的地址必须encodeing参数
+4。标签不能删除  --》 extract（）后用python del list
+6, 清楚分析get-post：有response获取查看 json.loads(response.body,encoding='utf-8')
+7，前端和response的html代码不一样
+9,json获取的html片段可以用scrapy.selector下的Selector构造实例, 用xpath和css选择器解析
+    >>> from scrapy.selector import Selector
+    >>> body = '<html><body><span>good</span></body></html>'
+    >>> Selector(text=body).xpath('//span/text()').get()
+    == 'good'
+POST请求报错：{'result': 'error', 'message': {'class': 'com.sino.core.utils.Message', 'errorMessage': None, 'errorState': 'error', 'msg': None}}
+Request的post 换 FormRequest 请求
+
+###### xpath清洗数据之去除js
+```python
+# 方法一
+import html as ht
+import requests
+from lxml import html
+
+rep = requests.get('https://www.baidu.com/')
+HTML = rep.content
+def remove_node():
+    tree = html.fromstring(HTML)
+
+    ele = tree.xpath('//script | //noscript')  
+    for e in ele:
+        e.getparent().remove(e)
+
+    Html= html.tostring(tree).decode()   #tostring()返回的是bytes类型，decode()转成字符串
+    print(ht.unescape(Html))    #unescape()将字符串中的uncode变化转成中文
+    
+    
+    #html = response.text
+    #html = etree.HTML(html)
+    #ele = html.xpath('//script | //noscript | //style')
+    #for e in ele:
+        #e.getparent().remove(e)
+    #a = html.xpath()
+
+if __name__ == '__main__':
+    remove_node()
+
+# 方法二：
+import html as ht
+import requests
+from lxml import html
+from lxml.html.clean import Cleaner
+
+rep = requests.get('https://www.baidu.com/')
+HTML = rep.content
+
+def clean_script():
+    cleaner = Cleaner()
+    cleaner.javascript = True  # This is True because we want to activate the javascript filter
+    cleaner.style = True  # clean the style element
+
+    tree = html.fromstring(HTML)
+    Html=html.tostring(cleaner.clean_html(tree)).decode()
+    print(ht.unescape(Html))
+
+if __name__ == '__main__':
+    clean_script()
+
+
+```
+    
+
 ##### ~~scrapy 解决 动态加载 ：
 https://www.cnblogs.com/shaosks/p/6963615.html ；  https://blog.csdn.net/qq_33689414/article/details/79462138
 Scrapy常用请求头
@@ -35,9 +115,3 @@ github下载速度慢： https://segmentfault.com/a/1190000018932652
     
     pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  --trusted-host pypi.tuna.tsinghua.edu.cn packagename ； 加速pip下载：更换pip源
     https://blog.csdn.net/zuimrs/article/details/79774781
-
-
-总结，
-1，传参数是否带有空格特殊符号换行等，例如Python内置的dict类型自带空格
-2，item值的dict类型赋值前做jsondumps
-3，request请求参数有的地址必须encodeing参数
