@@ -4,6 +4,8 @@ crc32 ==> int->str ; \m
 
 ##### 日志配置
 ```python
+ 
+
 import logging, datetime
 AUTOTHROTTLE_DEBUG = True
 LOG_FILE_PATH = './varlogs/tt_log%s' % datetime.now().strftime('%m%d')
@@ -29,6 +31,35 @@ logger.info('err')
 POST请求报错：{'result': 'error', 'message': {'class': 'com.sino.core.utils.Message', 'errorMessage': None, 'errorState': 'error', 'msg': None}}
 Request的post 换 FormRequest 请求
 
+注释掉headers里面的 Content-Length 这一栏 不然报错 = Scrapy POST request not working - 400 Bad Request
+必须要有headers里面的'Content-Type' 这一栏
+
+```python
+res = requests.post(url, json=data, headers={"Content-Type": "application/json", 'Connection': 'close'})
+res.connection.close()
+res.close()
+# 1，在上面的代码中，我关闭了每个连接并且不让它存活。
+
+
+FakeUserAgentError('Maximum amount of retries reached') 彻底解决办法
+# 禁用服务器缓存
+ua = UserAgent(use_cache_server=False)
+# 无效，不缓存数据：
+ua = UserAgent(cache=False)
+# 无效，忽略ssl验证：
+ua = UserAgent(verify_ssl=False)
+
+# 当上面这些方式都无效的时候，就需要使用本地保存获取了
+# 下载： 
+    https://fake-useragent.herokuapp.com/browsers/0.1.11 
+# 并另存为：
+    fake_useragent.json
+# 获取user_agent函数
+def get_header():
+    location = os.getcwd() + '/fake_useragent.json'
+    ua = fake_useragent.UserAgent(path=location)
+    return ua.random
+```
 ###### xpath清洗数据之去除js
 ```python
 # 方法一

@@ -1,0 +1,7 @@
+ 
+ 
+解析并读取PDF文件 ：https://blog.csdn.net/qq_27586341/article/details/105432400#2.%C2%A0pdfminer%20%26%20pdfminer3k ； https://blog.csdn.net/weixin_42185136/art ; icle/details/101199344https://blog.csdn.net/qq_21980099/article/details/105316438
+ Python将PDF转成图片PNG和JPG ： https://cloud.tencent.com/developer/article/1481641  ； https://pymupdf.readthedocs.io/en/latest/ ； https://www.cnblogs.com/loveprogramme/p/11247037.html
+ 基于百度云的OCR识别（Python）！ ：https://www.lizenghai.com/archives/20267.html#image
+cnocr 中文OCR的Python3包  ： https://github.com/breezedeus/cnocr  ； https://zhuanlan.zhihu.com/p/60767671
+总结： 遇到安装的包不能用，卸载冲突的包重新安装

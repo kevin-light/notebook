@@ -4,6 +4,20 @@ markdown -- >  https://www.zybuluo.com/mdeditor#1440657 ; https://blog.csdn.net/
 
 ####完整案例
 ```python
+
+#####在使用pymysql的executemany方法时，需要注意的几个问题
+# 1、在写sql语句时，不管字段为什么类型，占位符统一使用%s,且不能加上引号。例如
+sql="insert into tablename (id,name) values (%s,%s)"
+# 2、添加的数据的格式必须为list[tuple(),tuple(),tuple()]或者tuple(tuple(),tuple(),tuple())例如
+values=[(1,"zhangsan"),(2,"lisi")]
+#或者
+values=((1,"zhangsan"),(2,"lisi"))
+# 最后，通过executemany插入
+cursor.executemany(sql,values)
+
+# 原文链接：https://blog.csdn.net/jy1690229913/java/article/details/79407224
+
+
 import pymysql 
 
 def connDB(): #连接数据库函数

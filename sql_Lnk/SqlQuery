@@ -7,10 +7,22 @@ insert ignore会忽略数据库中已经存在的数据(根据主键或者唯一
 ```sql
 
     aa = eval(cc)  #  cc str类型转dic
-
+方法一
 root:test> insert ignore into t3 (c1,c2,c3) values(5,'cc',4),(6,'dd',5);     Query OK, 1 row affected, 1 warning (0.01 sec)
-
+方法二
+replace into t3 (c1,c2,c3) values(3,'new',8);
+方法三
 insert into t3(c1,c2,c3) values (3,'new',5) on duplicate key update c1=c1+3;
+这三种方法都能避免主键或者唯一索引重复导致的插入失败问题。
+insert ignore能忽略重复数据，只插入不重复的数据。
+replace into和insert ... on duplicate key update，都是替换原有的重复数据，区别在于replace into是删除原有的行后，在插入新行，如有自增id，这个会造成自增id的改变；insert ... on duplicate key update在遇到重复行时，会直接更新原有的行，具体更新哪些字段怎么更新，取决于update后的语句
+
+
+
+一、sql的left join 、right join 、inner join之间的区别
+left join(左联接) 返回包括左表中的所有记录和右表中联结字段相等的记录 
+right join(右联接) 返回包括右表中的所有记录和左表中联结字段相等的记录
+inner join(等值连接) 只返回两个表中联结字段相等的行
 ```
 
 这三种方法都能避免主键或者唯一索引重复导致的插入失败问题。

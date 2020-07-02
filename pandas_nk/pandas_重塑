@@ -1,0 +1,97 @@
+```
+
+https://github.com/zhangleiszu/pandas
+
+参考
+
+https://segmentfault.com/a/1190000018537597?utm_source=tag-newest
+
+https://www.cnblogs.com/bigshow1949/p/7016235.html
+
+```
+1. Merge方法
+pandas的merge方法是基于共同列，将两个dataframe连接起来。下面分析merge方法的主要参数含义：
+left/right：左/右位置的dataframe。
+how：数据合并的方式。left：基于左dataframe列的数据合并；right：基于右dataframe列的数据合并；outer：基于列的数据外合并（取并集）；inner：基于列的数据内合并（取交集）；默认为'inner'。
+on：用来合并的列名，这个参数需要保证两个dataframe有相同的列名。
+left_on/right_on：左/右dataframe合并的列名，也可为索引，数组和列表。
+left_index/right_index：是否以index作为数据合并的列名，True表示是。
+sort：根据dataframe合并的keys排序，默认是。
+suffixes：若有相同列且该列没有作为合并的列，可通过suffixes设置该列的后缀名，一般为元组和列表类型。
+merges通过设置how参数选择两个dataframe的连接方式，有内连接，外连接，左连接，右连接，下面通过例子介绍连接的含义。
+1.1 内连接
+how='inner'，dataframe的链接方式为内连接，我们可以理解基于共同列的交集进行连接，参数on设置连接的共有列名
+# 单列的内连接
+# 定义df1
+df1 = pd.DataFrame({'alpha':['A','B','B','C','D','E'],'feature1':[1,1,2,3,3,1],
+
+            'feature2':['low','medium','medium','high','low','high']})
+
+# 定义df2
+df2 = pd.DataFrame({'alpha':['A','A','B','F'],'pazham':['apple','orange','pine','pear'],
+
+            'kilo':['high','low','high','medium'],'price':np.array([5,6,5,7])})
+
+# print(df1)
+# print(df2)
+# 基于共同列alpha的内连接
+df3 = pd.merge(df1,df2,how='inner',on='alpha')
+df3
+1.2 外连接
+how='outer'，dataframe的链接方式为外连接，我们可以理解基于共同列的并集进行连接，参数on设置连接的共有列名。若两个dataframe间除了on设置的连接列外并无相同列，则该列的值置为NaN。
+
+
+
+# 单列的外连接
+# 定义df1
+df1 = pd.DataFrame({'alpha':['A','B','B','C','D','E'],'feature1':[1,1,2,3,3,1],
+
+                'feature2':['low','medium','medium','high','low','high']})
+
+# 定义df2
+df2 = pd.DataFrame({'alpha':['A','A','B','F'],'pazham':['apple','orange','pine','pear'],
+                        'kilo':['high','low','high','medium'],'price':np.array([5,6,5,7])})
+# 基于共同列alpha的内连接
+df4 = pd.merge(df1,df2,how='outer',on='alpha')
+df4
+# 单列的左连接
+# 定义df1
+df1 = pd.DataFrame({'alpha':['A','B','B','C','D','E'],'feature1':[1,1,2,3,3,1],
+
+    'feature2':['low','medium','medium','high','low','high']})
+
+# 定义df2
+df2 = pd.DataFrame({'alpha':['A','A','B','F'],'pazham':['apple','orange','pine','pear'],
+                        'kilo':['high','low','high','medium'],'price':np.array([5,6,5,7])})
+# 基于共同列alpha的左连接
+df5 = pd.merge(df1,df2,how='left',on='alpha')
+df5
+
+
+
+
+
+
+`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://github.com/zhangleiszu/pandas
+
+参考
+
+https://segmentfault.com/a/1190000018537597?utm_source=tag-newest
+
+https://www.cnblogs.com/bigshow1949/p/7016235.html
+`

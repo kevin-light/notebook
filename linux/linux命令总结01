@@ -1,0 +1,243 @@
+ls命令参数： -a  列出指定目录下的所有文件，包括隐藏文件；  -l 长格式列表。 ； ls -al
+touch test1 test2 test3; 将每个文件的访问和修改时间更新为当前时间,
+$ cat -n test  #展示文件内容并且展示行号
+#创建目录文件test     $ mkdir test
+#循环删除目录下所有文件    $ rm -rf linux  #删除目录成功，
+#移动文件并重命名   $ mv 。/logs/tmp.txt ./tmp.log 
+#拷贝文件内容     $ cp tmp.cc tmp.java
+# echo，常用来打印变量、文本内容到，例如:
+$ echo "change world"
+change world
+#s输出PWD环境变量的值
+$ echo $PWD
+/Users/localhost/test
+# head常用参数；   -n 展示前n行
+$ head -n15 test.txt #展示15行
+$ cat -n test.txt #这就用上前面的cat命令的-n参数，要学会学以致用哦。
+tail命令完全和他相反，是从尾部开始展示文本，但是他的参数用法更多。
+-f 循环读取
+-c<数目> 显示的字节数
+-n<行数> 显示行数
+#  more&less最重要的一点就是流式读取，支持翻页，像cat命令是全部读取输出到标准输出，如果文件太大会把屏幕刷满的，根本没办法看。
+
+#wc命令参数  wc [-clmw] [file ...] 
+-c 统计字节数。
+-l 统计行数。
+-m 统计字符数。这个标志不能与 -c 标志一起使用。
+-w 统计字数。一个字被定义为由空白、跳格或换行字符分隔的字符串。
+-L 打印最长行的长度。
+#$ which ls  ；  使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。
+alias ls='ls --color=auto'
+    /bin/ls
+# whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）
+$ whereis ls
+/bin/ls
+# find是实时查找，如果需要更快的查询，可试试locate；locate会为文件系统建立索引数据库，如果有文件更新，需要定期执行更新命令来更新索引库:
+$locate string  ; 寻找包含有string的路径:
+$updatedb
+与find不同，locate并不是实时查找。你需要更新数据库，以获得最新的文件索引信息。
+#  find实用程序对列出的每个路径递归地遍历目录树，根据树中的每个文件计算表达式(由下面列出的“初选”和“操作数”组成)。
+$find /home/midou/logs// -mtime +30 -name "*.log.gz" -exec rm -rf {} \;     # {} 这个是语法不能丢了 ，还有结尾的 ； 也不能丢了。
+# 日志都是G级别的，当然不能用vim打开去搜索，会把系统挂掉，vim是全部文档加载到内存。这时候就需要使用grep命令去根据一些关键信息匹配查找了。
+$grep '20:[1-5][0-9]:' *.log  #匹配当前目录下搜索log日志中，20点的日志
+$grep '20:[1-5][0-9]' 1.log 2.log 3.log  #指定在这三个文件中查找
+#grep规则是支持正则表达式的
+$ps -ef|grep java    #查找所有java进程
+$ps -ef|grep java    #-c可以统计查找的个数
+$grep '20:[1-5][0-9]:' *.log | grep -v '20:[3-4][0-9]:'   # -v反向选择，相当于过滤
+$grep 'ab|bc' *.log  #支持|语法，匹配含有ab或者bc的文本行
+# cut实用程序从每个文件中剪切出每行的选定部分（由列表指定），并将它们写入标准输出。 如果未指定文件参数，或者文件参数为单破折号（-），则从标准输入中读取内容。 列表指定的项目可以是列位置，也可以是由特殊字符分隔的字段。 列编号从1开始。
+$cut -c-10 tmp.txt  #cut tmp.txt文件的前10列
+$cut -c3-5 tmp.txt  #cut tmp.txt文件的第3到5列
+$cut -c3- tmp.txt  #cut tmp.txt文件的第3到结尾列
+Compare files line by line.
+
+#比较两个文件的不同   diff [OPTION]... FILES
+$ diff testA.txt testB.txt
+#  用来压缩和解压文件。tar本身不具有压缩功能。他是调用压缩功能实现的
+#打包  tar -cvf 包名  文件名
+$tar -cvf test.tar test.txt 
+#解包  tar -xvf 包名 
+$tar -xvf test.tar
+#压缩  tar -czvf 包名 文件名
+$tar -czvf test.tgz test.txt
+#解压  tar -xzvf 包名
+$tar -xzvf test.tgz
+# du实用程序显示每个文件自变量以及以每个目录自变量为根的文件层次结构中每个目录的文件系统块使用情况。如果未指定文件，则显示以当前目录为根的层次结构的块使用情况。
+#查看指定文件大小
+$du -h filename
+#展示该目录下所有文件大小，大小以可读方式展示
+$du  -h /
+#展示当前目录大小
+$du -sh
+#展示当前目录下每个目录大小
+$du -sh ./
+#显示所有文件的大小，以可读方式展示
+$du -ah /
+# df实用程序显示有关指定文件系统或其中一部分文件的文件系统上的可用磁盘空间量的统计信息。 值以每块计数512字节的形式显示。 如果未指定文件或文件系统操作数，则将显示所有已挂载文件系统的统计信息（受下面的-t选项约束）。
+#展示当前系统磁盘使用情况，以可读的方式展示
+$ df -h
+# lsof（list open files）是一个列出当前系统打开文件的工具。(在linux环境下，任何事物都以文件的形式存在)
+#检测网络情况
+$ping host
+#ping网关
+$ping -b host
+#ping指定次数
+$ping -c 10 host
+#ping指定时间间隔和次数限制
+$ping -c 10 -i 0.5 host
+#通过域名ping公网上的站点
+# netstat命令以符号形式显示各种与网络相关的数据结构的内容。有多种输出格式，具体取决于显示信息的选项
+#列出所有端口使用情况
+$netstat -a
+#显示当前UDP连接状况
+$netstat -nu
+#显示UDP端口号的使用情况
+$netstat -apu
+#显示网卡列表
+$netstat -i
+#显示网络统计信息
+$netstat -s
+#显示监听的套接口
+$netstat -l
+#显示所有已建立的有效连接
+$netstat -n
+#显示关于路由表的信息
+$netstat -r
+#列出所有 tcp 端口
+$netstat -at
+#找出程序运行的端口
+$netstat -ap | grep ssh
+#在 netstat 输出中显示 PID 和进程名称
+$netstat -pt
+# Ifconfig用于配置内核驻留的网络接口。 它在引导时用于根据需要设置接口。 之后，通常仅在调试或需要系统调整时才需要它。
+#显示网络设备信息
+$ifconfig
+#启动关闭指定网卡
+$ifconfig eth0 up
+$ifconfig eth0 down
+#配置IP地址
+$ifconfig eth0 ip
+#启用和关闭ARP协议
+$ifconfig eth0 arp
+$ifconfig eth0 -arp
+#设置最大传输单元
+$ifconfig eth0 mtu 1500
+# GNU Wget是一个免费实用程序，用于从Web非交互式下载文件。 它支持HTTP，HTTPS和FTP协议，以及通过HTTP代理进行检索。
+#下载某个文件，wget 文件的地址
+$wget https://blog.csdn.net/qq_38646470
+## free显示系统中可用和可用的物理内存和交换内存的总量，以及内核使用的缓冲区和高速缓存。
+total:总计物理内存的大小。
+used:已使用多大。
+free:可用有多少。
+Shared:多个进程共享的内存总额。
+Buffers/cached:磁盘缓存的大小。
+第三行(-/+ buffers/cached):
+used:已使用多大。
+free:可用有多少。
+#周期性的查询内存使用信息，5s执行一次
+$ free -s 5
+# top程序提供正在运行的系统的动态实时视图。 它可以显示系统摘要信息以及Linux内核当前正在管理的进程或线程的列表
+#top
+$ top
+top - 00:56:07 up 149 days, 14:40,  1 user,  load average: 0.00, 0.02, 0.05
+Tasks: 254 total,   1 running, 253 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.4 us,  0.3 sy,  0.0 ni, 98.3 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 65808884 total, 23749772 free,  4586160 used, 37472952 buff/cache
+KiB Swap:        0 total,        0 free,        0 used. 60909608 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+24397 dongshan  20   0 17.972g 688312  13728 S   6.2  1.0   7:09.11 java
+    1 root      20   0   42140   3684   1476 S   0.0  0.0  23:58.88 systemd
+    2 root      20   0       0      0      0 S   0.0  0.0   0:05.47 kthreadd
+   3 root      20   0       0      0      0 S   0.0  0.0   0:16.06 ksoftirqd/0
+   
+第一行，任务队列信息，同 uptime 命令的执行结果，具体参数说明情况如下：
+00:56:07 — 当前系统时间
+up 149 days, 14:40 — 系统已经运行了149天14小时40分钟（在这期间系统没有重启过的）
+1users — 当前有1个用户登录系统
+load average: 0.00, 0.02, 0.05 — load average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。
+load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。
+第二行，Tasks — 任务（进程）
+系统现在共有254个进程，其中处于运行中的有1个，253个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个。
+第三行，cpu状态信息
+%Cpu(s):  1.4 us,  0.3 sy,  0.0 ni, 98.3 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st
+1.4 us — 用户空间占用CPU的百分比。
+0.3 sy — 内核空间占用CPU的百分比。
+0.0 ni — 改变过优先级的进程占用CPU的百分比
+98.3 id — 空闲CPU百分
+0.1 wa — IO等待占用CPU的百分比
+0.0 hi — 硬中断（Hardware IRQ）占用CPU的百分比
+0.0 si — 软中断（Software Interrupts）占用CPU的百分比
+第四行,内存状态
+65808884 total  物理内存总量
+23749772 free  使用中的内存总量
+4586160 used   空闲内存总量
+37472952 buff/cache  缓存的内存量
+第五行，swap交换分区信息
+0 total   交换区总量
+0 use   使用的交换区总量
+0 free   空闲交换区总量
+60909608 avail Mem  可用交换区总量
+第七行以下：各进程（任务）的状态监控
+PID — 进程id
+USER — 进程所有者
+PR — 进程优先级
+NI — nice值。负值表示高优先级，正值表示低优先级
+VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES
+RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA
+SHR — 共享内存大小，单位kb
+S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程
+%CPU — 上次更新到现在的CPU时间占用百分比
+%MEM — 进程使用的物理内存百分比
+TIME+ — 进程使用的CPU时间总计，单位1/100秒
+COMMAND — 进程名称（命令名/命令行）
+
+
+#vmstat报告有关进程，内存，页面调度，块IO，陷阱，磁盘和cpu活动的信息。
+#显示虚拟内存情况
+$ vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  0      0 23764228 507816 36953948    0    0     3     5    0    0  1  0 98  0  0
+解释
+Procs（进程）：
+r: 运行队列中进程数量
+b: 等待IO的进程数量
+Memory（内存）：
+swpd: 使用虚拟内存大小
+free: 可用内存大小
+buff: 用作缓冲的内存大小
+cache: 用作缓存的内存大小
+Swap：
+si: 每秒从交换区写到内存的大小
+so: 每秒写入交换区的内存大小
+IO：（现在的Linux版本块的大小为1024bytes）
+bi: 每秒读取的块数
+bo: 每秒写入的块数
+系统：
+in: 每秒中断数，包括时钟中断。
+cs: 每秒上下文切换数。
+CPU（以百分比表示）：
+us: 用户进程执行时间(user time)
+sy: 系统进程执行时间(system time)
+id: 空闲时间(包括IO等待时间),中央处理器的空闲时间 。以百分比表示。
+wa: 等待IO时间
+#表示在3秒时间内进行3次采样。将得到一个数据汇总他能够反映真正的系统情况。
+$vmstat 3 3
+#查看系统fork多少次
+$ vmstat -f
+    166484246 forks
+#查看内存使用的详细信息
+$vmstat -s
+#查看磁盘的读/写
+$vmstat -d
+#查看系统的slab信息
+$vmstat -m
+
+查看磁盘空间 df -h
+查看目录大小 du -sh
+打包 tar -cvf
+解包 tar -xvf
+压缩 gzip
+解压缩 gunzip bzip

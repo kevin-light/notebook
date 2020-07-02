@@ -1,0 +1,52 @@
+```shell script
+ssh san@47.98.145.208
+psql -U alvin -d pgsdb1 -h 127.0.0.1    （123123）
+psql重置ID ；  truncate  choice_marketsector_f_code RESTART IDENTITY;
+Postgres.conf位置目录路径：/etc/postgresql/10/main
+如果禁用 synchronous_commit参数，性能会有惊人的提高，不过这样关闭了日志的实时同步，虽然对性能有极大的提高，但是可能会造成数据库在意外时无法保持数据一致性，因此并不建议修改这个参数
+磁盘查看：  df -h;   df -I;    du -ahd1;
+
+如果需要让此用户有root权限，执行命令：
+root@ubuntu:~# sudo vim /etc/sudoers
+修改文件如下：
+# User privilege specification
+root ALL=(ALL) ALL
+db ALL=(ALL) ALL
+保存退出，db用户就拥有了root权限。
+mac- AppleID  ：shenghuili@51jiecai.com ； 159Lsh
+895.qq.com  ;   159Lsh
+MacBook Pro   白屏
+18-05-24：shift+control+option+开机键 = 重置设备管理器
+Python == >  64bit无内存限制.  32bit限制内存2G
+https://www.cnblogs.com/rampb/p/6183076.html   — pydict插件
+1. 首先按esc进入命令行模式下，按下Ctrl + v，进入列（也叫区块）模式;
+  2. 在行首使用上下(j,k)键选择需要注释的多行;
+  3. 按下键盘（大写）“I”键，进入插入模式；
+  4. 然后输入注释符（“//”、“#”等）;
+  5. 最后按下“Esc”键。
+Ctrl+v 进入列选择模式，移到光标把注释符选中，按下d，注释就被删除了。
+esc — v — y复制 — p黏贴
+	* 
+shift+g 跳转到最后一行
+	* 
+gg 跳转到第一行
+
+
+H M L 跳到屏幕的顶上 中间 下方
+快捷键"^"（即Shift+6）或0（数字0）。
+快捷键"$"（Shift+4）。与快捷键"^"和0不同，快捷键"$"前可以加上数字表示移动的行数。例如使用"1$"表示当前行的行尾，"2$"表示当前行的下一行的行尾。
+跳转行数：25gg或者25G 跳转到第25行. = 在命令模式下输入行号n  =  : n
+copy复制：  6,9 co 12 = 复制第6行到第9行之间的内容到第12行后面
+日志会重定向到指定目录下： nohup ./execute.sh >  /home/xxx/log.log >&1 & 
+
+日志会重定向到指定目录下： nohup ./execute.sh >  /home/xxx/log.log >&1 &
+用kill pid杀掉进程，如果kill pid失败，可以用kill -9 pid 杀进程
+which命令可用于查找命令位置。
+whereis可查找命令的位置，手册，源文件等。
+which和whereis都不能查找内置命令位置。
+locate优点：查找速度块；缺点：模糊匹配，匹配路径，实时性差。
+find优点：准确查找，功能丰富；缺点：速度较慢。
+find高级用法将在后面的文章介绍
+wsgi-nginx ； https://www.jianshu.com/p/1c6ae9ccd174  ； https://www.linuxidc.com/Linux/2017-03/141785.htm
+
+```
