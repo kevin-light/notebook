@@ -16,6 +16,9 @@ label = df.columns[0] # 1st col label
 lst = df.columns.tolist() # get as a list
 lst=['A', 'B', 'C', 'D']
 label='A'
+# 在Pandas中将float64列转换为int64
+df['column name'].astype(np.int64)
+
 df = pd.DataFrame({'name':['a','a','b','b'],'classes':[1,2,3,4],'price':[11,22,33,44]})
 df1 = pd.DataFrame({'alpha':['-A','B','B','C','D','-E'],'ft1':[1,1,2,3,3,1],'ft2':['low','medium','medium','high','low','high']})
 # df2 = pd.DataFrame({'alpha':['A','A','B','F'],'pazham':['apple','orange','pine','pear'],'kilo':['high','low','high','medium'],'price':np.array([5,6,5,7])})

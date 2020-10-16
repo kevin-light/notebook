@@ -72,15 +72,54 @@ import json
 # print(aaa.iloc[0,0],'---11')
 
 
-df = pd.DataFrame({'姓名':['aa','bb','cc'],"电话":[1,2,3],"机构":['1a','2a','3a']})
-# df = pd.DataFrame([['aa','bb','cc'],[1,2,3],['1a','2a','3a']])
+# df = pd.DataFrame({'姓名':['aa','bb','cc'],"电话":[1,2,3],"机构":['1a','2a','3a']})
+# # df = pd.DataFrame([['aa','bb','cc'],[1,2,3],['1a','2a','3a']])
+#
+# print(df,'---0')
+# print(list(df.to_numpy()),'---1',type(df.to_string()))
+# dnp = df.to_numpy()
+# # el = []
+# # for i in dnp:
+# #     el.append(i)
+# dnp = dnp.tolist()
+# dnp = json.dumps(dnp)
+# print(dnp,type(dnp))
 
-print(df,'---0')
-print(list(df.to_numpy()),'---1',type(df.to_string()))
-dnp = df.to_numpy()
-# el = []
-# for i in dnp:
-#     el.append(i)
-dnp = dnp.tolist()
-dnp = json.dumps(dnp)
-print(dnp,type(dnp))
+# #  '<class 'pandas.core.frame.Pandas'>' 类型合并
+# import pandas as pd
+# df = pd.DataFrame({'col1': [1, 1], 'col2': [1, 0.2]}, index=['a', 'b'])
+#
+# data_list = []
+# for row in df.itertuples():
+#     print(row)
+#     data_list.append(row)
+#
+# print(data_list)
+# dl_df = pd.concat([pd.DataFrame([data_list[0]]).reset_index('Index'),pd.DataFrame([data_list[1]]).reset_index('Index')],keys='col1',axis=1, lsuffix='_aaa', rsuffix='_other')
+# # dl_df = pd.DataFrame([data_list[0]]).set_index('Index').join(pd.DataFrame([data_list[1]]).set_index('Index'), lsuffix='_aaa', rsuffix='_other')
+# # dl_df = pd.DataFrame(data_list).set_index('Index')
+# print(dl_df)
+
+#
+
+# df1 = pd.DataFrame({'alpha':['A','B','B','C','D','E'],'beta':['a','a','b','c','c','e'],'feature1':[1,1,2,3,3,1],'feature2':['low','medium','medium','high','low','high']})
+# df2 = pd.DataFrame({'alpha':['A','A','B','F'],'beta':['d','d','b','f'],'pazham':['apple','orange','pine','pear'],'kilo':['high','low','high','medium'],'price':np.array([5,6,5,7])})
+# print(df1)
+# print(df2)
+# df7 = pd.merge(df1,df2,on=['alpha','beta'],how='inner')  # 基于共同列alpha和beta的内连接
+# # print(df7,'-----inner')
+# # 基于共同列alpha和beta的右连接
+# df8 = pd.merge(df1,df2,on=['alpha','beta'],how='right')
+# # print(df8,'---right')
+# df8 = pd.merge(df1,df2,on=['alpha','beta'],how='left')
+# # print(df8,'------left')
+# df8 = pd.merge(df1,df2,on=['alpha','beta'],how='outer')
+# print(df8,'------outer')
+
+df1 = pd.Series([1.1,2.2,3.3],index=['i1','i2','i3'])
+df2 = pd.Series([4.4,5.5,6.6],index=['i2','i3','i4'])
+print(df1)
+print(df2,'---2')
+# 行拼接
+df3 = pd.concat([df1,df2],axis=1)
+print(df3,'---3')

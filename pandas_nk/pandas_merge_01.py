@@ -75,4 +75,3 @@ result = data.stack()
 
 # 我们使用unstack()将数据的列旋转为行，默认是最里层的行索引：
 result.unstack()
-

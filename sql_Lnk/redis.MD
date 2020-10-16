@@ -1,4 +1,10 @@
 ```sql
+ Redis 分布式锁
+SETNX(SET If Not Exists)：当且仅当 Key 不存在时，则可以设置，否则不做任何动作。
+SETEX：可以设置超时时间
+GETSET命令：设置新值并返回旧值，以此来释放锁或解决死锁。 原理是删除锁或将原来的锁值替换成新值。
+
+
 # 创建服务, 默认名字为 Redis
 redis-server --service-install redis.windows.conf --loglevel notice --service-name RedisMaster
 # 接着启动服务

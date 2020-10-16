@@ -59,7 +59,7 @@ ROBOTSTXT_OBEY = True  #如果启用,Scrapy将会采用 robots.txt策略
 #    'demo1.pipelines.Demo1Pipeline': 300,
 #}
 
-#启用和配置AutoThrottle扩展（默认情况下禁用）
+#启用和配置AutoThrottle扩展（默认情况下禁用）  数据遗漏打开
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
 

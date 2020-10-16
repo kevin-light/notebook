@@ -17,6 +17,11 @@ logger.info('err')
 ```
     
 总结，
+0:Form Data 和 Request Payload 区别
+    如果请求头里设置Content-Type: application/x-www-form-urlencoded，那么这个请求被认为是表单请求，参数出现在Form Data里，格式为key=value&key=value&key=value...
+    原生的AJAX请求头里设置Content-Type:application/json，或者使用默认的请求头Content-Type:text/plain;参数会显示在Request payload块里提交。
+    https://www.cnblogs.com/yang-shuai/p/9929158.html
+
 1，字段加密破解：传参数是否带有空格特殊符号换行等，例如Python内置的dict类型自带空格
 2，item值的dict类型赋值前做jsondumps
 3，request请求参数有的地址必须encodeing参数
